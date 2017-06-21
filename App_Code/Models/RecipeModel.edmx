@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RecipieModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="IngredientTable">
+          <Key>
+            <PropertyRef Name="ingredientId" />
+          </Key>
+          <Property Name="ingredientId" Type="int" Nullable="false" />
+          <Property Name="ingredientsName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="quantityName" Type="int" Nullable="false" />
+          <Property Name="unit" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Recipie.dbo.QuantityTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="QuantityTable">
+          <Key>
+            <PropertyRef Name="RecipieId" />
+            <PropertyRef Name="ingredientId" />
+            <PropertyRef Name="quantity" />
+          </Key>
+          <Property Name="RecipieId" Type="int" Nullable="false" />
+          <Property Name="ingredientId" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipeTable">
+          <Key>
+            <PropertyRef Name="RecipieId" />
+          </Key>
+          <Property Name="RecipieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SubmittedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="50" />
+          <Property Name="Cookingtime" Type="int" />
+          <Property Name="Numberofservings" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_QuantityTable_IngredientTable1">
+          <End Role="IngredientTable" Type="Self.IngredientTable" Multiplicity="1" />
+          <End Role="QuantityTable" Type="Self.QuantityTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientTable">
+              <PropertyRef Name="ingredientId" />
+            </Principal>
+            <Dependent Role="QuantityTable">
+              <PropertyRef Name="ingredientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuantityTable_RecipeTable">
+          <End Role="RecipeTable" Type="Self.RecipeTable" Multiplicity="1" />
+          <End Role="QuantityTable" Type="Self.QuantityTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeTable">
+              <PropertyRef Name="RecipieId" />
+            </Principal>
+            <Dependent Role="QuantityTable">
+              <PropertyRef Name="RecipieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RecipieModelStoreContainer">
+          <EntitySet Name="IngredientTable" EntityType="Self.IngredientTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeTable" EntityType="Self.RecipeTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuantityTable" EntityType="Self.QuantityTable" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [QuantityTable].[RecipieId] AS [RecipieId], 
+    [QuantityTable].[ingredientId] AS [ingredientId], 
+    [QuantityTable].[quantity] AS [quantity]
+    FROM [dbo].[QuantityTable] AS [QuantityTable]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_QuantityTable_IngredientTable1" Association="Self.FK_QuantityTable_IngredientTable1">
+            <End Role="IngredientTable" EntitySet="IngredientTable" />
+            <End Role="QuantityTable" EntitySet="QuantityTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuantityTable_RecipeTable" Association="Self.FK_QuantityTable_RecipeTable">
+            <End Role="RecipeTable" EntitySet="RecipeTable" />
+            <End Role="QuantityTable" EntitySet="QuantityTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RecipieModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="IngredientTable">
+          <Key>
+            <PropertyRef Name="ingredientId" />
+          </Key>
+          <Property Name="ingredientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ingredientsName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="QuantityTables" Relationship="Self.FK_QuantityTable_IngredientTable1" FromRole="IngredientTable" ToRole="QuantityTable" />
+          <Property Name="quantityName" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipeTable">
+          <Key>
+            <PropertyRef Name="RecipieId" />
+          </Key>
+          <Property Name="RecipieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SubmittedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cookingtime" Type="Int32" />
+          <Property Name="Numberofservings" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="QuantityTables" Relationship="Self.FK_QuantityTable_RecipeTable" FromRole="RecipeTable" ToRole="QuantityTable" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuantityTable">
+          <Key>
+            <PropertyRef Name="RecipieId" />
+            <PropertyRef Name="ingredientId" />
+            <PropertyRef Name="quantity" />
+          </Key>
+          <Property Name="RecipieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ingredientId" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="IngredientTable" Relationship="Self.FK_QuantityTable_IngredientTable1" FromRole="QuantityTable" ToRole="IngredientTable" />
+          <NavigationProperty Name="RecipeTable" Relationship="Self.FK_QuantityTable_RecipeTable" FromRole="QuantityTable" ToRole="RecipeTable" />
+        </EntityType>
+        <Association Name="FK_QuantityTable_IngredientTable1">
+          <End Role="IngredientTable" Type="Self.IngredientTable" Multiplicity="1" />
+          <End Role="QuantityTable" Type="Self.QuantityTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientTable">
+              <PropertyRef Name="ingredientId" />
+            </Principal>
+            <Dependent Role="QuantityTable">
+              <PropertyRef Name="ingredientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuantityTable_RecipeTable">
+          <End Role="RecipeTable" Type="Self.RecipeTable" Multiplicity="1" />
+          <End Role="QuantityTable" Type="Self.QuantityTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeTable">
+              <PropertyRef Name="RecipieId" />
+            </Principal>
+            <Dependent Role="QuantityTable">
+              <PropertyRef Name="RecipieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RecipieEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="IngredientTables" EntityType="Self.IngredientTable" />
+          <EntitySet Name="RecipeTables" EntityType="Self.RecipeTable" />
+          <EntitySet Name="QuantityTables" EntityType="Self.QuantityTable" />
+          <AssociationSet Name="FK_QuantityTable_IngredientTable1" Association="Self.FK_QuantityTable_IngredientTable1">
+            <End Role="IngredientTable" EntitySet="IngredientTables" />
+            <End Role="QuantityTable" EntitySet="QuantityTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuantityTable_RecipeTable" Association="Self.FK_QuantityTable_RecipeTable">
+            <End Role="RecipeTable" EntitySet="RecipeTables" />
+            <End Role="QuantityTable" EntitySet="QuantityTables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RecipieModelStoreContainer" CdmEntityContainer="RecipieEntities">
+          <EntitySetMapping Name="IngredientTables">
+            <EntityTypeMapping TypeName="RecipieModel.IngredientTable">
+              <MappingFragment StoreEntitySet="IngredientTable">
+                <ScalarProperty Name="quantityName" ColumnName="quantityName" />
+                <ScalarProperty Name="ingredientId" ColumnName="ingredientId" />
+                <ScalarProperty Name="ingredientsName" ColumnName="ingredientsName" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeTables">
+            <EntityTypeMapping TypeName="RecipieModel.RecipeTable">
+              <MappingFragment StoreEntitySet="RecipeTable">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RecipieId" ColumnName="RecipieId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SubmittedBy" ColumnName="SubmittedBy" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Cookingtime" ColumnName="Cookingtime" />
+                <ScalarProperty Name="Numberofservings" ColumnName="Numberofservings" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuantityTables">
+            <EntityTypeMapping TypeName="RecipieModel.QuantityTable">
+              <MappingFragment StoreEntitySet="QuantityTable">
+                <ScalarProperty Name="RecipieId" ColumnName="RecipieId" />
+                <ScalarProperty Name="ingredientId" ColumnName="ingredientId" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

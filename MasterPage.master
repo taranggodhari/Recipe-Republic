@@ -1,0 +1,109 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link rel="stylesheet" href="Styles/StyleSheet.css" />
+    <style type ="text/css">
+        .myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+	background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+	background-color:#f9f9f9;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
+	background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
+	background-color:#e9e9e9;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+        .auto-style1 {
+            height: 65px;
+        }
+    </style>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+         <div id="wrapper">
+        <div id="banner">
+            <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/RecipieRepublican.png" Height ="100%" Width ="100%"/>
+            
+        </div>
+        <div id="navbar">
+            <ul id="nav">
+               <table  width ="100%" style="border-collapse:collapse;">
+                <td width ="12%" aria-orientation="horizontal" class="auto-style1">
+                    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Pages/Index.aspx" Height="38px" Width="127px">Home</asp:HyperLink>
+                </td >
+               <td width ="12%" aria-orientation="horizontal" class="auto-style1">
+                    <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Pages/Recipes.aspx" Height="38px" Width="150px">Recipe</asp:HyperLink>
+                </td>
+               <td width ="12%" aria-orientation="horizontal" class="auto-style1">
+                    <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/Pages/AddRecipes.aspx" Height="38px" Width="150px" >Add Recipe</asp:HyperLink>
+                </td>
+                <td width ="12%" aria-orientation="horizontal" class="auto-style1">
+                    <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/Pages/Search.aspx" Height="38px" Width="123px">Search</asp:HyperLink>
+                </td>
+                <td width ="12%" aria-orientation="horizontal" class="auto-style1">
+                    <asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/Pages/Setup.aspx" Height="38px" Width="96px">Setup</asp:HyperLink>
+                </td>
+                 <td width ="12%" aria-orientation="horizontal" class="auto-style1">
+                    <asp:HyperLink ID="HyperLink6" runat="server" NavigateUrl="~/Pages/Login.aspx " Height="38px" Width="120px">Login</asp:HyperLink>
+                </td>
+                 <td width ="12%" aria-orientation="horizontal" class="auto-style1">
+                    <asp:HyperLink ID="HyperLink7" runat="server" NavigateUrl="~/Pages/Register.aspx " Height="38px" Width="130px">Register</asp:HyperLink>
+                </td>
+                  <td align = "right" width ="6%" aria-orientation="horizontal" class="auto-style1">
+                <asp:Label ID="Label2" runat="server" Text="Hello," Height="38px" ></asp:Label>
+                </td>
+                   <td aria-orientation="horizontal" class="auto-style1">
+                       <asp:Label ID="Label1" runat="server" ForeColor="#171717" Height="38px"></asp:Label>  
+                   </td>
+                   <td id = "myButton" align ="left" aria-orientation="horizontal" class="auto-style1">
+                       <asp:Button  ID="LogoutButton" runat="server" Text="Logout" OnClick="LogoutButton_Click" CssClass="myButton" Height="38px"  />
+                   </td>
+               </table> 
+            </ul>
+        </div>
+        
+            <div id="content">
+                <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+                </asp:ContentPlaceHolder>
+            </div>
+         </div>
+    </form>
+</body>
+</html>
